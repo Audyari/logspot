@@ -96,4 +96,4 @@ Dilisensikan di bawah [MIT License](LICENSE).
 
 ---
 
-Dibuat dengan ❤️ oleh [Nama Anda] - [@username](https://github.com/username)
+Dibuat dengan ❤️ oleh [Auadyari Wiyono] - [@Auadyari](https://github.com/Auadyari)

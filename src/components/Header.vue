@@ -8,6 +8,8 @@
         </div>
         
         <nav class="nav-tabs">
+
+          <!-- View Tab fungsi untuk melihat changelog belum ada -->
           <button 
             class="nav-tab" 
             :class="{ active: activeTab === 'view' }"
@@ -16,6 +18,8 @@
             <i class="fas fa-list"></i>
             Lihat Changelog
           </button>
+
+          <!-- Add Tab fungsi untuk menambah changelog baru -->
           <button 
             class="nav-tab" 
             :class="{ active: activeTab === 'add' }"

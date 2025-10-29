@@ -1,14 +1,14 @@
 <template>
   <ErrorBoundary>
     <div id="app">
-      <!-- Header tetap sama -->
       <Header :active-tab="activeTab" @tab-change="handleTabChange" />
 
       <main class="main-content">
         <div class="container">
-          <!-- Tambahkan Test Button (HAPUS NANTI setelah test) -->
-          <!-- <div v-if="showTestButtons" class="test-panel">
-            <h3>🧪 Test Panel (Hapus setelah selesai test)</h3>
+          <!-- HAPUS test panel atau comment out -->
+          <!-- Hanya tampilkan test panel di development -->
+          <!-- <div v-if="showTestButtons && isDevelopment" class="test-panel">
+            <h3>🧪 Test Panel (Development Only)</h3>
             <div class="test-buttons">
               <button @click="testSuccess" class="btn-test success">
                 ✅ Test Success
@@ -22,29 +22,29 @@
               <button @click="testConfirm" class="btn-test info">
                 ❓ Test Confirm
               </button>
-
-              <!-- Error Boundary Test -->
-          <!-- <button @click="toggleErrorComponent" class="btn-test danger">
+              <button @click="toggleErrorComponent" class="btn-test danger">
                 💥 Test Error Boundary
               </button>
             </div>
             <button @click="showTestButtons = false" class="btn-hide">
               Sembunyikan Test Panel
             </button>
-          </div>  -->
+          </div> -->
 
           <!-- Error Test Component -->
-          <!-- <div v-if="showErrorComponent" class="error-test-container">
+          <div v-if="showErrorComponent && isDevelopment" class="error-test-container">
             <h3>Testing Error Boundary</h3>
             <ErrorTestComponent />
-          </div> -->
+          </div>
 
           <!-- Komponen asli Anda -->
           <ChangelogList
             v-if="activeTab === 'view'"
             :changelogs="store.sortedChangelogs"
+            :loading="store.loading"
             @edit="handleEdit"
             @delete="handleDelete"
+            @add-first="handleAddFirst"
           />
 
           <ChangelogForm
@@ -57,10 +57,10 @@
       </main>
     </div>
 
-    <!-- TAMBAHKAN INI: Toast Container -->
+    <!-- Toast Container -->
     <ToastContainer />
 
-    <!-- TAMBAHKAN INI: Confirm Dialog -->
+    <!-- Confirm Dialog -->
     <ConfirmDialog
       :is-open="confirmDialog.isOpen.value"
       :title="confirmDialog.title.value"
@@ -72,13 +72,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useChangelogStore } from "./stores/changelog";
 import Header from "./components/Header.vue";
 import ChangelogList from "./components/ChangelogList.vue";
 import ChangelogForm from "./components/ChangelogForm.vue";
 
-// TAMBAHKAN INI: Import komponen baru
+// Import komponen baru
 import ErrorBoundary from "./components/ErrorBoundary.vue";
 import ToastContainer from "./components/ToastContainer.vue";
 import ConfirmDialog from "./components/ConfirmDialog.vue";
@@ -90,10 +90,13 @@ const activeTab = ref("view");
 const editingItem = ref(null);
 const store = useChangelogStore();
 
-// TAMBAHKAN INI: Setup toast & confirm
+// Setup toast & confirm
 const toast = useToast();
 const confirmDialog = useConfirm();
-const showTestButtons = ref(true); // Set false untuk hide test panel
+
+// HANYA tampilkan di development
+const isDevelopment = computed(() => import.meta.env?.MODE === 'development');
+const showTestButtons = ref(true);
 const showErrorComponent = ref(false);
 
 // Load data dari localStorage saat app dimulai
@@ -109,14 +112,15 @@ const handleTabChange = (tab) => {
 const handleEdit = (item) => {
   editingItem.value = item;
   activeTab.value = "add";
+  toast.info(`Mengedit: ${item.title}`);
 };
 
-// MODIFIKASI INI: Pakai confirm dialog yang sudah diupdate
 const handleDelete = async (id) => {
   try {
+    const itemToDelete = store.changelogs.find(item => item.id === id);
     const confirmed = await confirmDialog.confirm({
       title: "Hapus Changelog",
-      message: "Apakah Anda yakin ingin menghapus update ini? Tindakan ini tidak dapat dibatalkan."
+      message: `Apakah Anda yakin ingin menghapus "${itemToDelete?.title}"? Tindakan ini tidak dapat dibatalkan.`
     });
 
     if (confirmed) {
@@ -129,7 +133,6 @@ const handleDelete = async (id) => {
   }
 };
 
-// MODIFIKASI INI: Tambahkan toast notification
 const handleSubmit = (formData) => {
   try {
     if (editingItem.value) {
@@ -150,9 +153,10 @@ const handleSubmit = (formData) => {
 const handleCancel = () => {
   activeTab.value = "view";
   editingItem.value = null;
+  toast.info("Edit dibatalkan");
 };
 
-// TAMBAHKAN INI: Test functions
+// Test functions - HANYA di development
 const testSuccess = () => {
   toast.success("✅ Ini toast success! Data berhasil disimpan.");
 };
@@ -181,6 +185,11 @@ const testConfirm = async () => {
 const toggleErrorComponent = () => {
   showErrorComponent.value = !showErrorComponent.value;
 };
+
+// Handle add first
+const handleAddFirst = () => {
+  activeTab.value = 'add'
+}
 </script>
 
 <style>
@@ -205,9 +214,10 @@ body {
 
 .main-content {
   padding: 2rem 0;
+  min-height: calc(100vh - 80px);
 }
 
-/* TAMBAHKAN INI: Test Panel Styles */
+/* Test Panel Styles - Hanya untuk development */
 .test-panel {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
@@ -302,5 +312,21 @@ body {
   .test-buttons {
     grid-template-columns: 1fr;
   }
+  
+  .test-panel {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Smooth transitions untuk tab switching */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
