@@ -1,30 +1,107 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <Header :active-tab="activeTab" @tab-change="handleTabChange" />
+    
+    <main class="main-content">
+      <div class="container">
+        <ChangelogList 
+          v-if="activeTab === 'view'"
+          :changelogs="store.sortedChangelogs"
+          @edit="handleEdit"
+          @delete="handleDelete"
+        />
+        
+        <ChangelogForm 
+          v-else-if="activeTab === 'add'"
+          :editing-item="editingItem"
+          @submit="handleSubmit"
+          @cancel="handleCancel"
+        />
+      </div>
+    </main>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useChangelogStore } from './stores/changelog'
+import Header from './components/Header.vue'
+import ChangelogList from './components/ChangelogList.vue'
+import ChangelogForm from './components/ChangelogForm.vue'
+
+const activeTab = ref('view')
+const editingItem = ref(null)
+const store = useChangelogStore()
+
+// Load data dari localStorage saat app dimulai
+onMounted(() => {
+  store.loadFromStorage()
+})
+
+const handleTabChange = (tab) => {
+  activeTab.value = tab
+  editingItem.value = null
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+const handleEdit = (item) => {
+  editingItem.value = item
+  activeTab.value = 'add'
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+const handleDelete = (id) => {
+  if (confirm('Apakah Anda yakin ingin menghapus update ini?')) {
+    store.deleteChangelog(id)
+  }
+}
+
+const handleSubmit = (formData) => {
+  if (editingItem.value) {
+    store.updateChangelog(editingItem.value.id, formData)
+  } else {
+    store.addChangelog(formData)
+  }
+  activeTab.value = 'view'
+  editingItem.value = null
+}
+
+const handleCancel = () => {
+  activeTab.value = 'view'
+  editingItem.value = null
+}
+</script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f8fafc;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.main-content {
+  padding: 2rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .main-content {
+    padding: 1rem 0;
+  }
 }
 </style>
