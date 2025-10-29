@@ -5,7 +5,7 @@
       <div class="sort-controls">
         <select class="sort-select" v-model="sortOrder" @change="handleSortChange">
           <option value="desc">Terbaru ke Terlama</option>
-          <option value="asc">Terlama ke Terbatu</option>
+          <option value="asc">Terlama ke Terbaru</option>
         </select>
       </div>
     </div>
