@@ -1,51 +1,54 @@
 # Project Context
 
 ## Purpose
-Logspot adalah platform manajemen log dan analitik yang membantu developer untuk melacak, menganalisis, dan memantau log aplikasi secara real-time. Tujuan utamanya adalah menyediakan solusi yang mudah digunakan namun powerful untuk debugging dan monitoring aplikasi.
+Logspot adalah aplikasi manajemen changelog yang memungkinkan tim untuk melacak dan mengkomunikasikan pembaruan produk dengan cara yang terstruktur dan mudah dipahami. Tujuan utamanya adalah:
+- Menyediakan pusat dokumentasi perubahan produk yang terorganisir
+- Meningkatkan transparansi tim dan pengguna
+- Memudahkan pelacakan riwayat pembaruan produk
 
 ## Tech Stack
-- **Frontend**: 
-  - Next.js 14 dengan App Router
-  - TypeScript
-  - Tailwind CSS
-  - React Query untuk manajemen state server
-  - Zustand untuk state management client
-  - Shadcn/UI untuk komponen UI
+- **Frontend**:
+  - Vue.js 3 (Composition API)
+  - Pinia untuk state management
+  - Vite sebagai build tool
+  - CSS3 dengan pendekatan utility-first
 
-- **Backend**:
-  - Node.js dengan Express
-  - MongoDB untuk database
-  - JWT untuk autentikasi
-  - Winston untuk logging
-
-- **Infrastruktur**:
-  - Vercel untuk deployment frontend
-  - Railway untuk backend
-  - MongoDB Atlas untuk database
+- **Tools & Layanan**:
+  - Vercel untuk deployment
+  - GitHub untuk version control
+  - ESLint & Prettier untuk kualitas kode
 
 ## Project Conventions
 
 ### Code Style
-- Gunakan TypeScript secara ketat dengan strict mode
-- Gunakan ESLint dan Prettier untuk konsistensi kode
-- Gunakan konvensi penamaan camelCase untuk variabel dan fungsi
-- Gunakan PascalCase untuk komponen React
-- Gunakan UPPER_CASE untuk konstanta
-- Gunakan prefix `use` untuk custom hooks
-- Gunakan prefix `handle` untuk event handlers
+- Gunakan Composition API dengan `<script setup>`
+- Nama komponen dalam format PascalCase (contoh: `ChangelogList.vue`)
+- Gunakan koma di akhir (trailing commas) untuk object dan array
+- Gunakan single quote untuk string
+- 2 spasi untuk indentasi
+- Sertakan komponen yang digunakan di bagian atas file
+- Pisahkan logika bisnis ke dalam store Pinia
 
 ### Architecture Patterns
-- Feature-based folder structure
-- Server Components untuk data fetching
-- Client Components untuk interaktivitas
-- Custom hooks untuk logika bisnis yang reusable
-- API routes untuk backend endpoints
+- **Komponen**:
+  - Komponen diletakkan di folder `src/components`
+  - Nama file komponen mencerminkan fungsionalitas (misal: `ChangelogList.vue`)
+  - Komponen bersifat reusable dan menerima props dengan validasi
+
+- **State Management**:
+  - Gunakan Pinia untuk manajemen state global
+  - Pisahkan store berdasarkan domain (contoh: `changelog.js`)
+  - Gunakan actions untuk operasi async
+
+- **Routing**:
+  - Gunakan Vue Router untuk navigasi
+  - Gunakan named routes untuk referensi yang lebih aman
 
 ### Testing Strategy
-- Unit testing dengan Jest dan React Testing Library
-- Integration testing untuk komponen penting
-- E2E testing dengan Cypress
-- Minimal 80% code coverage
+- Unit test untuk komponen dengan Vitest
+- Test coverage minimal 80%
+- Gunakan Testing Library untuk pengujian komponen
+- Mock external dependencies saat testing
 
 ### Git Workflow
 - Gunakan Git Flow
@@ -55,20 +58,36 @@ Logspot adalah platform manajemen log dan analitik yang membantu developer untuk
 - Gunakan semantic versioning untuk release
 
 ## Domain Context
-- Sistem ini menangani log dalam berbagai format (JSON, text, dll)
-- Setiap log memiliki level (error, warn, info, debug)
-- Log dapat difilter berdasarkan waktu, level, dan metadata
-- Dukungan untuk alerting berdasarkan kriteria tertentu
+- Aplikasi ini berfokus pada manajemen changelog produk
+- Setiap entri changelog memiliki:
+  - Judul
+  - Tanggal
+  - Tipe (Fitur Baru, Peningkatan, Perbaikan)
+  - Deskripsi
+  - Versi (opsional)
+- Data disimpan di localStorage untuk persistensi
 
 ## Important Constraints
-- Harus mendukung minimal 10.000 log per detik
-- Waktu respons API maksimal 200ms untuk 95% request
-- Harus compliant dengan GDPR
-- Harus mendukung multi-tenant
+- Aplikasi harus berjalan di browser modern terbaru
+- Harus mendukung tampilan mobile dan desktop
+- Performa harus tetap baik dengan banyak entri changelog
+- Harus aksesibel (keyboard navigation, screen reader friendly)
 
 ## External Dependencies
-- Auth0 untuk autentikasi
-- Sentry untuk error tracking
-- MongoDB Atlas untuk database
-- Vercel Analytics untuk analitik
-- Cloudinary untuk penyimpanan aset
+- **UI**:
+  - Font Awesome untuk ikon
+  - Google Fonts (jika diperlukan)
+
+- **Development Tools**:
+  - Vite
+  - ESLint
+  - Prettier
+
+## Getting Started
+1. Clone repository
+2. Install dependencies: `npm install`
+3. Jalankan development server: `npm run dev`
+4. Build untuk produksi: `npm run build`
+
+## Deployment
+Aplikasi dapat dideploy ke Vercel dengan konfigurasi default. Pastikan file `vercel.json` sudah sesuai.
