@@ -1,21 +1,99 @@
-# Vue 3 + Vite
+# 🚀 LogSpot
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+[![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white)](https://vuejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-While this project uses Vue.js, Vite supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+LogSpot adalah aplikasi web modern untuk mencatat dan mengelola aktivitas harian dengan antarmuka yang sederhana dan mudah digunakan. Dibangun dengan Vue 3, Vite, dan Tailwind CSS.
 
-## Deploy Your Own
+## ✨ Fitur
 
-Deploy your own Vite project with Vercel.
+- 📝 Buat dan kelola catatan harian dengan mudah
+- 🎨 Antarmuka pengguna yang bersih dan responsif
+- ⚡ Performa cepat berkat Vite
+- 📱 Dapat diakses di berbagai perangkat
+- 🔄 Dukungan PWA (Progressive Web App)
 
-[![Deploy with Vercel](https://vercel.com/button)]([https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/framework-boilerplates/vite&template=vite](https://vercel.com/new/clone?demo-description=Vite%2FVue.js%20site%20that%20can%20be%20deployed%20to%20Vercel&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F2T4BUF3mEBKPJF3jcjU6nS%2F0d4a02e7c48091d13814a4ab513e8734%2FScreen_Shot_2022-04-13_at_10.05.56_PM.png&demo-title=Vite%20-%20Vue&demo-url=https%3A%2F%2Fvite-vue-template.vercel.app%2F&from=templates&project-name=Vite%20-%20Vue&repository-name=vite-vue&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fvercel%2Ftree%2Fmain%2Fexamples%2Fvite&skippable-integrations=1))
+## 🚀 Cara Memulai
 
-_Live Example: https://vite-vue-template.vercel.app_
+### Prasyarat
 
-### Deploying From Your Terminal
+- Node.js (versi 16 atau lebih baru)
+- npm atau pnpm
 
-You can deploy your new Vite project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
+### Instalasi
 
-```shell
-$ vercel
+1. Clone repositori ini
+   ```bash
+   git clone https://github.com/username/logspot.git
+   cd logspot
+   ```
+
+2. Install dependencies
+   ```bash
+   # Menggunakan npm
+   npm install
+   
+   # Atau menggunakan pnpm
+   pnpm install
+   ```
+
+3. Jalankan development server
+   ```bash
+   npm run dev
+   # atau
+   pnpm dev
+   ```
+
+4. Buka [http://localhost:5173](http://localhost:5173) di browser Anda
+
+### Build untuk Produksi
+
+```bash
+# Build untuk produksi
+npm run build
+
+# Preview build lokal
+npm run preview
 ```
+
+## 🛠 Teknologi yang Digunakan
+
+- [Vue 3](https://vuejs.org/) - Framework JavaScript Progresif
+- [Vite](https://vitejs.dev/) - Build tool yang cepat
+- [Pinia](https://pinia.vuejs.org/) - State management
+- [Vue Router](https://router.vuejs.org/) - Navigasi halaman
+- [Tailwind CSS](https://tailwindcss.com/) - Framework CSS utility-first
+- [Headless UI](https://headlessui.com/) - Komponen UI yang dapat diakses
+- [Heroicons](https://heroicons.com/) - Koleksi ikon SVG
+
+## 📂 Struktur Proyek
+
+```
+src/
+├── assets/          # Aset statis (gambar, font, dll.)
+├── components/      # Komponen Vue yang dapat digunakan kembali
+├── composables/     # Composable functions
+├── router/          # Konfigurasi Vue Router
+├── stores/          # State management dengan Pinia
+├── styles/          # File gaya global
+└── views/           # Halaman/route komponen
+```
+
+## 🤝 Berkontribusi
+
+Kontribusi selalu diterima! Berikut cara berkontribusi:
+
+1. Fork proyek ini
+2. Buat branch fitur (`git checkout -b fitur/namafitur`)
+3. Commit perubahan Anda (`git commit -m 'Menambahkan beberapa fitur'`)
+4. Push ke branch (`git push origin fitur/namafitur`)
+5. Buka Pull Request
+
+## 📝 Lisensi
+
+Dilisensikan di bawah [MIT License](LICENSE).
+
+---
+
+Dibuat dengan ❤️ oleh [Nama Anda] - [@username](https://github.com/username)
